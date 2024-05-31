@@ -1,0 +1,71 @@
+Go To SNS services and next select topics and create a new topic and save the arn of that topic.
+Create a S3 Bucket and save the bucket name
+Create an IAM user with awsrekognitionfullaccess and awss3fullaccess
+Create a role in IAM services with awsrekognitionfullaccess and awss3fullaccess,
+and add new permissions as JSON 
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "iam:PassRole",
+            "Resource": "arn:aws:iam::168960011685:user/nani-rekognition"
+        }
+    ]
+}
+
+1.Name - aws-weapon-detection-sns
+
+arn:aws:sns:us-east-1:851725418179:aws-weapon-detection-sns
+
+
+2. aws-weapon-detection-user
+
+3.aws-weapon-detection-role  (allows rekognition to call AWS services on your behalf
+arn:aws:iam::851725418179:role/aws-weapon-detection-role
+
+4.aws-weapon-detection-policy
+
+5.aws-weapon-detection-bucket
+
+
+Access key
+
+AKIA4MTWKP3BSCMPVOXX
+-----------------------------
+Secret access key
+
+
+cFZd4dgZ19NHwU/acFqd0k2fB2szj9QbZCUafbun
+
+
+
+#AWS KEYS
+AWS_ACCESS_KEY_ID = 'AKIA4MTWKP3BSCMPVOXX'
+AWS_SECRET_ACCESS_KEY = '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'
+REGION_NAME = 'us-east-1'
+
+SNS_TOPIC_ARN = 'arn:aws:sns:us-east-1:851725418179:aws-weapon-detection-sns'
+ROLE_ARN = 'arn:aws:iam::851725418179:role/aws-weapon-detection-role'
+BUCKET_NAME = 'aws-weapon-detection-bucket'
+
+
+
+
+
+#AWS KEYS
+AWS_ACCESS_KEY_ID = 'AKIAS2AV7OOZQ7HK7YGS'
+AWS_SECRET_ACCESS_KEY = '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'
+REGION_NAME = 'ap-south-1'
+
+SNS_TOPIC_ARN = 'arn:aws:sns:ap-south-1:193319629747:aws-weapon-detection-sns'
+ROLE_ARN = 'arn:aws:iam::193319629747:role/aws-weapon-detection-role'
+BUCKET_NAME = 'aws-weapon-detection-bucket'
+
+
+
+
+
+
+
+
