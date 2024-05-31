@@ -1,0 +1,251 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="utf-8">
+    <title>Weapon Rekognition</title>
+
+    <!-- mobile responsive meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- ** Plugins Needed for the Project ** -->
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'main/plugins/bootstrap/bootstrap.min.css' %}">
+    <!-- themefy-icon -->
+    <link rel="stylesheet" href="{% static 'main/plugins/themify-icons/themify-icons.css' %}">
+    <!-- slick slider -->
+    <link rel="stylesheet" href="{% static 'main/plugins/slick/slick.css' %}">
+    <!-- venobox popup -->
+    <link rel="stylesheet" href="{% static 'main/plugins/Venobox/venobox.css' %}">
+    <!-- aos -->
+    <link rel="stylesheet" href="{% static 'main/plugins/aos/aos.css' %}">
+
+    <!-- Main Stylesheet -->
+    <link href="{% static 'main/css/style.css' %}" rel="stylesheet">
+
+    <!--Favicon-->
+    <link rel="shortcut icon" href="{% static 'main/images/favicon.ico' %}" type="image/x-icon">
+    <link rel="icon" href="{% static 'main/images/favicon.ico' %}" type="image/x-icon">
+    <script type="text/javascript" src="{% static 'main/js/sweetalert.min.js' %}"></script>
+
+
+</head>
+
+<body>
+
+
+    <!-- navigation -->
+    <section class="fixed-top navigation">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-light">
+                <a class="navbar-brand" href="{% url 'user_dashboard' %}"> <span style="font-size: 35px;margin-left:10px;font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;">Weapon </span><span style="font-weight: 400;">Detection</span></a>
+
+                <button class="navbar-toggler border-0" type="button" data-toggle="collapse" data-target="#navbar"
+                    aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- navbar -->
+                <div class="collapse navbar-collapse text-center" id="navbar">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'user_dashboard' %}">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'user_image_rekognition' %}">Detect From Image</a>
+                          </li>
+                          <li class="nav-item">
+                            <a class="nav-link" href="{% url 'user_video_rekognition' %}">Detect From Video</a>
+                          </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'user_my_profile' %}">My Profile</a>
+                        </li>
+
+                    </ul>
+                    <a href="{% url 'user_logout' %}" class="btn btn-primary ml-lg-3 primary-shadow">Log Out</a>
+                </div>
+            </nav>
+        </div>
+    </section>
+    <!-- /navigation -->
+
+    <!-- contact -->
+    <section class="section contact">
+        <div class="container">
+
+                <h1 class="text-center">Result</h1>
+                {% if weapon == True %}
+                <h3 class="text-center danger" style="color: red;">
+                    Weapons Found
+                </h3>
+                {% endif %}
+                <!-- <h2 class="d-flex justify-content-center"><a class="btn btn-success" download="" href="/media/{{data.morphedimage}}">Download</a></h2> -->
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-sm-6 mb-4 mb-lg-0">
+                        <div class="card p-4 border-blue">
+                            {% if obj.upload_video %}
+                            <video controls>
+                                <source src="/media/{{obj.upload_video}}">
+                            </video>
+                            {% else %}
+
+                            <a href="/media/{{obj.modified_image}}" target="_blank"><img class="img-fluid" src="/media/{{obj.modified_image}}"></a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-sm-6 mb-4 mb-lg-0">
+                        <div class="card p-4 border-blue">
+                            {% if status %}
+                            {% for i in labels %}
+                            <h4 style="color: rgb(0, 0, 0) ; font-family: fantasy ;" >{{i.Name}} : 
+                                <span class="skill " style="width: {{i.Confidence}}% ;color:black;"> <span class="info_valume ">
+                                    
+                                    {{i.Confidence}}
+                                    
+                                </span>%</span> </h4>
+                                                              
+                                                <div class="progress skill-bar ">
+                                                   <div class="progress-bar progress-bar-animated progress-bar-striped" role="progressbar" aria-valuenow="{{i.Confidence}}" aria-valuemin="0" aria-valuemax="100" style="width: {{i.Confidence}}%;">
+                                                   </div>
+                                                </div>
+                        <hr>
+                        {% endfor %}
+                        {% else %}
+                            {% for i in labels %}
+                            <h4 style="color: rgb(0, 0, 0) ; font-family: fantasy ;" >{{i.Label.Name}} : 
+                                <span class="skill " style="width: {{i.Label.Confidence}}% ;color:black;"> <span class="info_valume ">
+                                    
+                                    {{i.Label.Confidence}}
+                                    
+                                </span>%</span> </h4>
+                                                              
+                                                <div class="progress skill-bar ">
+                                                   <div class="progress-bar progress-bar-animated progress-bar-striped" role="progressbar" aria-valuenow="{{i.Label.Confidence}}" aria-valuemin="0" aria-valuemax="100" style="width: {{i.Label.Confidence}}%;">
+                                                   </div>
+                                                </div>
+                        <hr>
+                        {% endfor %}
+                        {% endif %}
+                        <h4 style="color: rgb(0, 0, 0) ; font-family: fantasy ;" > <span style="color: rgb(31, 99, 161);"> &nbsp;&nbsp;{{number_plate}}</span></h4>
+
+
+                        </div>
+                    </div>
+                    
+                </div>
+            
+        </div>
+        <!-- background shapes -->
+        <img class="contact-bg-1 up-down-animation" src="{% static 'main/images/background-shape/feature-bg-2.png' %}"
+            alt="background-shape">
+        <img class="contact-bg-2 left-right-animation"
+            src="{% static 'main/images/background-shape/green-half-cycle.png' %}" alt="background-shape">
+        <img class="contact-bg-3 up-down-animation" src="{% static 'main/images/background-shape/green-dot.png' %}"
+            alt="background-shape">
+        <img class="contact-bg-4 left-right-animation"
+            src="{% static 'main/images/background-shape/service-half-cycle.png' %}" alt="background-shape">
+        <img class="contact-bg-5 up-down-animation" src="{% static 'main/images/background-shape/feature-bg-2.png' %}"
+            alt="background-shape">
+    </section>
+    <!-- /contact -->
+
+    {% if messages %}
+    {% for message in messages %}
+    {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+    <script>swal({
+            title: "Info :)",
+            text: "{{message}}",
+            icon: "info",
+            button: "OK",
+        });
+    </script>
+
+    {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+    <script>swal({
+            title: "Warning :(",
+            text: "{{message}}",
+            icon: "warning",
+            button: "OK",
+        });
+    </script>
+    {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+    <script>swal({
+            title: "Error :(",
+            text: "{{message}}",
+            icon: "error",
+            button: "OK",
+        });
+    </script>
+    {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+    <script>swal({
+            title: "Success :)",
+            text: "{{message}}",
+            icon: "success",
+            button: "OK",
+        });
+    </script>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+
+
+    <!-- footer -->
+    <footer class="footer-section footer" style="background-image: url(/static/main/images/backgrounds/footer-bg.png);">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 text-center text-lg-left mb-4 mb-lg-0">
+                    <!-- logo -->
+                    <a href="{% url 'index' %}">
+                        <img class="img-fluid" src="{% static 'main/images/logo.png' %}" alt="logo">
+                    </a>
+                </div>
+                <!-- footer menu -->
+                <nav class="col-lg-8 align-self-center mb-5">
+                    <ul class="list-inline text-lg-right text-center footer-menu">
+                        <li class="list-inline-item active"><a href="{% url 'index' %}">Home</a></li>
+                        <li class="list-inline-item"><a href="{% url 'about' %}">About</a></li>
+                        <li class="list-inline-item"><a class="page-scroll" href="#team">Team</a></li>
+                        <li class="list-inline-item"><a class="page-scroll" href="#pricing">Pricing</a></li>
+                        <li class="list-inline-item"><a href="{% url 'contact' %}">Contact</a></li>
+                    </ul>
+                </nav>
+                <!-- footer social icon -->
+                <nav class="col-12">
+                    <ul class="list-inline text-lg-right text-center social-icon">
+                        <li class="list-inline-item">
+                            <a class="facebook" href="#"><i class="ti-facebook"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="twitter" href="#"><i class="ti-twitter-alt"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="linkedin" href="#"><i class="ti-linkedin"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="black" href="#"><i class="ti-github"></i></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </footer>
+    <!-- /footer -->
+
+    <!-- jQuery -->
+    <script src="{% static 'main/plugins/jQuery/jquery.min.js' %}"></script>
+    <!-- Bootstrap JS -->
+    <script src="{% static 'main/plugins/bootstrap/bootstrap.min.js' %}"></script>
+    <!-- slick slider -->
+    <script src="{% static 'main/plugins/slick/slick.min.js' %}"></script>
+    <!-- venobox -->
+    <script src="{% static 'main/plugins/Venobox/venobox.min.js' %}"></script>
+    <!-- aos -->
+    <script src="{% static 'main/plugins/aos/aos.js' %}"></script>
+    <!-- Main Script -->
+    <script src="{% static 'main/js/script.js' %}"></script>
+ 
+
+</body>
+
+</html>
